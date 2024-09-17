@@ -11,7 +11,7 @@ Esta atividade de laboratório tem como objetivo a criação da modelagem concei
 - **Número de Tabelas:** Pelo menos 5 tabelas (não contando tabelas para relacionamentos N:M).
 - **Colunas por Tabela:** Cada tabela deve ter ao menos 2 colunas.
 - **Registros:** Cada tabela deve conter no mínimo 50 registros.
-- **Fonte dos Dados:** Os dados devem ser retirados da fonte real indicada no relatório.
+- **Fonte dos Dados:** Os dados devem ser retirados da fonte real *indicada* no relatório.
 
 ### Entrega
 

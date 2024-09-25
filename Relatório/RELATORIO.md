@@ -26,7 +26,7 @@ A utilização de auto-incremento nas tabelas com identificadores únicos ajudou
 
 ### MODELO CONCEITUAL
 
-![Der trabalho ](https://github.com/user-attachments/assets/734f7966-6062-4c24-9fab-7bbb51ee947d)
+![Der trabalho](./DER.jpg)
 
 ### CONSULTAS
 

@@ -1,64 +1,105 @@
-# Laboratório de DB - Modelagem de Banco de Dados
+<h1 align = "center">
+  Consumo Global de Energia 
+</h1>
+ 
+### INTRODUÇÃO
 
-## Atividade em Grupo - AT2/N1
+Nas últimas décadas, o consumo global de energia tem experimentado uma transformação acelerada, impulsionada pela industrialização, urbanização e crescimento populacional. Essas mudanças trazem consigo desafios complexos, como a crise climática e a desigualdade no acesso à energia.
+  
+Este relatório analisa as tendências do consumo global de energia no período de 1990 até 2021, com foco nas disparidades entre países desenvolvidos e em desenvolvimento. Nosso objetivo é fornecer uma visão clara sobre o consumo de energia mundial e o seu impacto.  
 
-### Descrição do Projeto
+Para esta análise, foi utilizado o Dataset [**"Trends of Global Energy Consumption"**](https://www.kaggle.com/code/abmsayem/trends-of-global-energy-consumption/input) na plataforma Kaggle.
 
-Esta atividade de laboratório tem como objetivo a criação da modelagem conceitual e do banco de dados para armazenar e consultar dados relacionados ao consumo global de energia elétrica. Utilizamos dados reais fornecidos pelo Kaggle, disponíveis no seguinte [link](https://www.kaggle.com/code/abmsayem/trends-of-global-energy-consumption/input).
+### EXTRAÇÃO E IMPORTAÇÃO DOS DADOS
 
-### Requisitos
+Este capítulo descreve o processo de importação, extração e inserção de dados do dataset "Trends of Global Energy Consumption" para banco de dados desenvolvido para este trabalho. O dataset original foi obtido da plataforma Kaggle e contém informações detalhadas sobre o consumo de energia global e o acesso a tecnologias limpas.
 
-- **Número de Tabelas:** Pelo menos 5 tabelas (não contando tabelas para relacionamentos N:M).
-- **Colunas por Tabela:** Cada tabela deve ter ao menos 2 colunas.
-- **Registros:** Cada tabela deve conter no mínimo 50 registros.
-- **Fonte dos Dados:** Os dados devem ser retirados da fonte real *indicada* no relatório.
+Para garantir que o banco de dados fosse alimentado com as informações mais relevantes, foi realizada uma filtragem dos dados. As colunas e registros selecionados foram aqueles que ofereciam insights sobre a geração de energia por continente, geração de energia per capita por país, percentual da população sem acesso à energia limpa, população rural sem acesso à energia por país e população total sem acesso à energia por país. Essas categorias foram escolhidas por sua relevância no entendimento das disparidades energéticas entre regiões.
 
-### Entrega
+O banco de dados foi estruturado seguindo um modelo relacional, onde as informações foram distribuídas em tabelas interconectadas. A principal tabela, Pais, contém os códigos e nomes dos países, servindo como chave de referência para todas as demais tabelas. Cada uma das categorias mencionadas anteriormente foi armazenada em tabelas separadas.
 
-A entrega deve conter os seguintes componentes:
+A tabela Pais funciona como a base de dados para todos os países mencionados nas demais tabelas. Cada tabela contém uma chave primária para identificação única dos registros e uma chave estrangeira que se relaciona com a tabela Pais, garantindo a integridade referencial do banco de dados.
 
-1. **Relatório (PDF):**
-   - **Introdução:** Explicação sobre a origem dos dados e o contexto dos mesmos.
-   - **Processo de Extração e Importação:** Detalhamento do processo de obtenção e inserção dos dados no banco de dados.
-   - **Modelo de Dados Conceitual:** Modelo criado usando ferramentas como Workbench ou BrModelo.
-   - **Consultas Realizadas:** Descrição e contextualização das consultas SQL executadas.
+Para iniciar a importação, o arquivo CSV foi formatado de modo a corresponder às estruturas das tabelas. Cada coluna no CSV foi associada às colunas corretas nas tabelas, respeitando as relações previamente estabelecidas entre elas. O processo de inserção dos dados incluiu o uso de comandos SQL como INSERT INTO, utilizado para inserir os dados diretamente do CSV para as tabelas correspondentes, facilitando a automação do processo e reduzindo o tempo necessário para a inserção manual.
 
-2. **Scripts SQL:**
-   - **Criação das Tabelas:** Script para a criação das tabelas no MySQL.
-   - **Inserção de Dados:** Script para a inserção de dados nas tabelas.
-   - **Consultas:** Script com pelo menos 3 consultas SQL relevantes.
+A utilização de auto-incremento nas tabelas com identificadores únicos ajudou a organizar e garantir a consistência dos dados, permitindo que os dados fossem consistentes e organizados de maneira a permitir consultas eficientes e seguras. 
 
-3. **Repositório no GitHub:**
-   - O repositório deve ser público e conter todos os arquivos mencionados acima.
-   - Não enviar arquivos zipados. O projeto deve ser enviado apenas como um link para o repositório.
+### MODELO CONCEITUAL
 
-### Critérios de Avaliação
+![Der trabalho ](https://github.com/user-attachments/assets/734f7966-6062-4c24-9fab-7bbb51ee947d)
 
-#### Coletivos (7 pontos)
+### CONSULTAS
 
-1. **Relatório (3 pontos):**
-   - Introdução e explicação da extração de dados (1 ponto).
-   - Modelagem conceitual (1 ponto).
-   - Consultas realizadas (1 ponto).
+1. Achando o pais com maior porcentagem de energia limpa ordenado do maior pro menor
+```sql
+SELECT p.nomepais, pe.ano, pe.percentpopenergialimpa
+FROM percentpopenergialimpa pe
+JOIN pais p ON pe.pais_codpais = p.codpais
+WHERE pe.ano IN (2020, 2021)
+ORDER BY pe.percentpopenergialimpa DESC;
+```
 
-2. **Banco de Dados (3 pontos):**
-   - Criação do banco de dados e tabelas (1 ponto).
-   - Inserção de dados (1 ponto).
-   - Consultas SQL (1 ponto).
+2. Vendo a geracao de energia de cada pais comparando nos anos de 2004 e 2005
 
-3. **Individuais (1 ponto):**
-   - Participação no desenvolvimento do projeto (0.5 ponto).
-   - Participação na apresentação final do projeto (0.5 ponto).
+```sql
+SELECT p.nomepais, 
+       gp1.ano AS ano1, 
+       CONCAT(gp1.geracaoenergiapessoapais, ' kW/h') AS geracao_ano1, 
+       gp2.ano AS ano2, 
+       gp2.geracaoenergiapessoapais AS geracao_ano2
+FROM geracaoenergiapessoapais gp1
+JOIN geracaoenergiapessoapais gp2 ON gp1.pais_codpais = gp2.pais_codpais
+JOIN pais p ON gp1.pais_codpais = p.codpais
+WHERE gp1.ano = 2004 AND gp2.ano = 2005;
+```
 
-### Observações
+3. acha o pais que gerou menos energia nos anos 
 
-- **Data de Entrega:** 25/09 até às 23:59.
-- **Plágio e Erros de Sintaxe:** Qualquer tipo de plágio ou erro de sintaxe resultará em nota 0.
-- **Links:** O link para o repositório GitHub deve ser enviado no portal.
+```sql
+SELECT p.nomepais, gp1.ano AS ano1, gp1.geracaoenergiapessoapais AS geracao_ano1, 
+       gp2.ano AS ano2, gp2.geracaoenergiapessoapais AS geracao_ano2,
+       LEAST(gp1.geracaoenergiapessoapais, gp2.geracaoenergiapessoapais) AS menor_geracao
+FROM geracaoenergiapessoapais gp1
+JOIN geracaoenergiapessoapais gp2 ON gp1.pais_codpais = gp2.pais_codpais
+JOIN pais p ON gp1.pais_codpais = p.codpais
+WHERE gp1.ano = 2004 AND gp2.ano = 2005
+ORDER BY menor_geracao ASC
+LIMIT 1;
+```
 
-### Instruções Adicionais
+4. achando a população sem acesso a energia no pais no ano de 2010
 
-- **Fonte dos Dados:** Utilizamos dados do Kaggle sobre tendências de consumo global de energia elétrica. [Link para os dados](https://www.kaggle.com/code/abmsayem/trends-of-global-energy-consumption/input).
-- **Ferramentas:** O banco de dados foi modelado e criado utilizando o SGBD MySQL.
+```sql
+SELECT p.nomepais, ps.ano, ps.popsemenergia
+FROM popsemacessoenergia ps
+JOIN pais p ON ps.pais_codpais = p.codpais
+WHERE ps.ano = 2010;
+```
 
-Para mais detalhes sobre a atividade e a execução, consulte o documento do relatório em PDF e os scripts SQL fornecidos no repositório.
+5. calculando a diferença da pop sem acesso a energia de cada ano que tem dado
+
+```sql
+SELECT p.nomepais, 
+       MIN(ps.ano) AS ano_inicial, 
+       MAX(ps.ano) AS ano_final,
+       MIN(ps.popsemenergia) AS pop_sem_energia_inicial,
+       MAX(ps.popsemenergia) AS pop_sem_energia_final,
+       (MAX(ps.popsemenergia) - MIN(ps.popsemenergia)) AS diferenca_popsemenergia
+FROM popsemacessoenergia ps
+JOIN pais p ON ps.pais_codpais = p.codpais
+GROUP BY p.nomepais
+ORDER BY p.nomepais;                           
+
+SELECT 
+    g.ano,
+    c.nomecontinente AS continente,
+    SUM(g.geracaoenergiacontinente) AS total_geracao
+FROM 
+    geracaoenergiacontinente g
+JOIN 
+    continente c ON g.continente_codcontinente = c.codcontinente
+GROUP BY 
+    g.ano, c.nomecontinente
+ORDER BY 
+    g.ano, c.nomecontinente;
+```

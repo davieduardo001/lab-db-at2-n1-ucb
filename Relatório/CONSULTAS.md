@@ -9,7 +9,7 @@ JOIN pais p ON pe.pais_codpais = p.codpais
 WHERE pe.ano IN (2020, 2021)
 ORDER BY pe.percentpopenergialimpa DESC;
 ```
-
+![alt text](./consultas_output/image-5.png)
 - **Comentário**: 
     - Esta consulta retorna o nome do país, o ano e o percentual da população utilizando energia limpa (clean cooking fuels) nos anos de 2020 e 2021.
     - Utiliza um `JOIN` para buscar o nome dos países a partir de seus códigos na tabela `pais`.
@@ -31,7 +31,7 @@ JOIN geracaoenergiapessoapais gp2 ON gp1.pais_codpais = gp2.pais_codpais
 JOIN pais p ON gp1.pais_codpais = p.codpais
 WHERE gp1.ano = 2004 AND gp2.ano = 2005;
 ```
-
+![alt text](./consultas_output/image-4.png)
 - **Comentário**:
     - Esta consulta faz uma comparação entre a geração de energia por pessoa para cada país nos anos de 2004 e 2005.
     - A função `CONCAT` adiciona a unidade ' kW/h' à geração de energia, para tornar a informação mais clara.
@@ -53,7 +53,7 @@ WHERE gp1.ano = 2004 AND gp2.ano = 2005
 ORDER BY menor_geracao ASC
 LIMIT 1;
 ```
-
+![alt text](./consultas_output/image-3.png)
 - **Comentário**:
     - Esta consulta busca verificar qual país teve a menor geração de energia entre os anos de 2004 e 2005.
     - A função `LEAST()` retorna o menor valor de geração entre os dois anos para cada país.
@@ -69,7 +69,7 @@ FROM popsemacessoenergia ps
 JOIN pais p ON ps.pais_codpais = p.codpais
 WHERE ps.ano = 2010;
 ```
-
+![alt text](./consultas_output/image-2.png)
 - **Comentário**:
     - Esta consulta retorna os países e a quantidade de população sem acesso à energia no ano de 2010.
     - Utiliza um `JOIN` para buscar o nome dos países e o `WHERE` filtra os dados para o ano específico de 2010.
@@ -91,7 +91,7 @@ JOIN pais p ON ps.pais_codpais = p.codpais
 GROUP BY p.nomepais
 ORDER BY p.nomepais;
 ```
-
+![alt text](./consultas_output/image-1.png)
 - **Comentário**:
     - Esta consulta calcula a diferença no número de pessoas sem acesso à energia entre os anos inicial e final para cada país.
     - Usa `MIN()` para encontrar o primeiro ano e `MAX()` para encontrar o ano mais recente.
@@ -116,7 +116,7 @@ GROUP BY
 ORDER BY 
     g.ano, c.nomecontinente;
 ```
-
+![alt text](./consultas_output/image.png)
 - **Comentário**:
     - Esta consulta calcula a geração total de energia por continente para cada ano.
     - Utiliza a função `SUM()` para somar a geração de energia de todos os países dentro de cada continente.

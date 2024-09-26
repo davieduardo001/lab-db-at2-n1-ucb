@@ -26,4 +26,4 @@ A utilização de auto-incremento nas tabelas com identificadores únicos ajudou
 
 ### MODELO CONCEITUAL
 
-![Der trabalho](./DER.jpg)
+![der_3_trabalho_banco_de_dados](https://github.com/user-attachments/assets/3ca69c3f-35bb-47e5-88f5-c459b2ec637a)
